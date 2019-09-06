@@ -37,6 +37,7 @@ if (isset($_POST['action']) && $_POST['action'] == 'login') {
     $emailUsuario = verificar_entrada($_POST['emailUsuário']);
     $senhaUsuario = verificar_entrada($_POST['senhaUsuário']);
     $senhaConfirma = verificar_entrada($_POST['senhaConfirma']);
+    $url = verificar_entrada($_POST['urlImg']);
     $concordar = $_POST['concordar'];
     $dataCriacao = date("Y-m-d H:i:s");
     //hash de senha / codificação de senha em 40 carácteres
@@ -59,8 +60,8 @@ if (isset($_POST['action']) && $_POST['action'] == 'login') {
         } elseif ($linha['email'] == $emailUsuario) {
             echo "<p>E-mail já em uso, tente outro</p>";
         } else {
-            $sql = $conecta->prepare("INSERT into usuario (nome, nomeUsuario, email, senha, dataCriacao) values(?, ?, ?, ?, ?)");
-            $sql->bind_param("sssss", $nomeCompleto, $nomeUsuario, $emailUsuario, $senha, $dataCriacao);
+            $sql = $conecta->prepare("INSERT into usuario (nome, nomeUsuario, email, senha, avatar, dataCriacao) values(?, ?, ?, ?, ?, ?)");
+            $sql->bind_param("ssssss", $nomeCompleto, $nomeUsuario, $emailUsuario, $senha, $url, $dataCriacao);
             if ($sql->execute()) {
                 echo "<p>Registrado com sucesso</p>";
             } else {

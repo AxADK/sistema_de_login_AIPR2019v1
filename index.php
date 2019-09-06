@@ -87,6 +87,9 @@ if (isset($_SESSION['nomeUsuario']))
                     <div class="form-group">
                         <input type="password" name="senhaConfirma" id="senhaConfirma" class="form-control" placeholder="Confirme a sua senha" required minlength="6">
                     </div>
+                    <div class="form-group">
+                        <input type="text" name="urlImg" id="imagem" class="form-control" placeholder="avatar" required>
+                    </div>
                     <div class="form-group mt-5">
                         <div class="custom-control custom-checkbox">
                             <input type="checkbox" name="concordar" id="concordar" class="custom-control-input">
