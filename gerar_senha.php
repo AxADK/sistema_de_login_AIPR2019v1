@@ -1,3 +1,38 @@
+<?php
+require_once 'configDB.php'; //Conexão com o Banco de Dados
+if (isset($_GET['token']) && strlen($_GET['token']) == 10) {
+    $token = $_GET['token'];
+    $sql = $conecta->prepare("SELECT * from usuario WHERE 
+    token = ? AND tempo_de_vida > now()");
+    $sql->bind_param("s", $token);
+    $sql->execute();
+    $resultado = $sql->get_result();
+    if ($resultado->num_rows > 0) {
+        //echo "Nova senha:". @$_POST[senha];
+        //Salvar a nova senha no banco de dados
+        if (isset($_POST['senha'])) {
+            $nova_senha = sha1($_POST['senha']);
+            $confirma_senha = sha1($_POST['csenha']);
+            if ($nova_senha == $confirma_senha) {
+                $sql = $conecta->prepare("UPDATE usuario 
+                SET senha = ?, token ='' WHERE token = ?");
+                $sql->bind_param("ss", $nova_senha, $token);
+                $sql->execute();
+                $msg = "Senha alterada com sucesso";
+            } else {
+                $msg = "As senhas não são iguais.";
+            }
+        }
+    } else { //Token sem vida        
+        header('location: index.php');
+        exit();
+    }
+} else { //Sem token ou token diferente de 10 caracteres
+    header('location:index.php'); //Kick da página
+    exit();
+}
+?>
+
 <!doctype html>
 <html lang="en">
 
@@ -34,7 +69,7 @@
                         <input type="password" name="csenha" id="csenha" class="form-control" placeholder="Nova Senha" required>
                     </div>
                     <div class="form-group">
-                    <input type="submit" value=":: Criar nova senha ::" name="criar" class="btn btn-primary btn-block">
+                        <input type="submit" value=":: Criar nova senha ::" name="criar" class="btn btn-primary btn-block">
 
                 </form>
             </div>
