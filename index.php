@@ -189,7 +189,7 @@ if (isset($_SESSION['nomeUsuario']))
                     $.ajax({
                         url: 'recebe.php',
                         method: 'post',
-                        data: $('#formSenha').serialize() + '&action=recuperarSenha',
+                        data: $('#formSenha').serialize() + '&action=senha',
                         success: function(resposta) {
                             $('#alerta').show();
                             $('#resultado').html(resposta);
